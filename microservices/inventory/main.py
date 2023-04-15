@@ -21,10 +21,10 @@ app.add_middleware(
   allow_headers=['*']
 )
 
-db = get_redis_connection(
-  host=os.environ['INVENTORY_DB_HOST'],
-  port=int(os.environ['INVENTORY_DB_PORT']),
-  password=os.environ['INVENTORY_DB_PASSWORD'],
+redis = get_redis_connection(
+  host=os.environ['INVENTORY_REDIS_HOST'],
+  port=int(os.environ['INVENTORY_REDIS_PORT']),
+  password=os.environ['INVENTORY_REDIS_PASSWORD'],
   decode_responses=True
 )
 
@@ -34,7 +34,7 @@ class Product(HashModel):
   qty: int
   
   class Meta:
-    database = db
+    database = redis
     
 def format(pk: str):
   product = Product.get(pk)
